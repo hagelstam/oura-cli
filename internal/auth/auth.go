@@ -23,7 +23,7 @@ func SaveToken(token string) error {
 		return err
 	}
 
-	return os.WriteFile(path, data, 0600)
+	return os.WriteFile(path, data, 0o600)
 }
 
 func LoadToken() (string, error) {
