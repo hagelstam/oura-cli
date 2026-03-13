@@ -1,0 +1,66 @@
+version: 2
+
+project_name: oura-cli
+
+before:
+  hooks:
+    - go mod tidy
+
+env:
+  - GO111MODULE=on
+
+report_sizes: true
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X github.com/hagelstam/oura-cli/internal/version.Version={{.Version}}
+
+archives:
+  - formats:
+      - binary
+    name_template: 'oura-cli_{{ .Tag }}_{{ .Os }}-{{ .Arch }}'
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  version_template: '{{ incpatch .Version }}-next'
+
+release:
+  header: |
+    # {{ .Version }}
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^test:'
+      - '^chore'
+      - 'merge conflict'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+  groups:
+    - title: Dependency updates
+      regexp: "^.*\\(deps\\)*:+.*$"
+      order: 300
+    - title: 'New features'
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 100
+    - title: 'Bug fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 200
+    - title: 'Documentation updates'
+      regexp: "^.*docs[(\\w)]*:+.*$"
+      order: 400
+    - title: Other work
+      order: 9999

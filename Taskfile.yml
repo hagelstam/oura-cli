@@ -6,17 +6,34 @@ silent: true
 tasks:
   default:
     cmds:
-      - go run . {{.CLI_ARGS}}
+      - DEBUG=true go run . {{.CLI_ARGS}}
     interactive: true
     desc: Run
 
+  debug:
+    cmds:
+      - printf "~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n―――――――――――――――――――――――――――――――――――――――――――――――\n" > ./debug.log
+      - DEBUG=true LOG_LEVEL={{.LOG_LEVEL}} go run . {{.CLI_ARGS}}
+    interactive: true
+    desc: Run in debug mode. Run `task logs` to watch the logs.
+
   install:
     desc: Install the application
+    vars:
+      LDFLAGS: '{{if .VERSION}}-ldflags="-X github.com/hagelstam/oura-cli/internal/version.Version={{.VERSION}}"{{end}}'
     cmds:
-      - go install -v .
+      - go install {{.LDFLAGS}} -v .
     sources:
       - ./**/*.go
       - go.mod
+
+  logs:
+    cmds:
+      - rm -f ./debug.log
+      - touch ./debug.log
+      - tail -f ./debug.log
+    interactive: true
+    desc: Tail the debug logs
 
   lint:
     desc: Run base linters
@@ -41,3 +58,9 @@ tasks:
     desc: Run golangci-lint fmt
     cmds:
       - golangci-lint fmt
+
+  release:
+    cmds:
+      - git checkout main
+      - git tag $(svu next)
+      - git push --tags
