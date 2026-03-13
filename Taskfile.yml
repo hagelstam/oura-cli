@@ -1,0 +1,43 @@
+# https://taskfile.dev
+
+version: '3'
+silent: true
+
+tasks:
+  default:
+    cmds:
+      - go run . {{.CLI_ARGS}}
+    interactive: true
+    desc: Run
+
+  install:
+    desc: Install the application
+    cmds:
+      - go install -v .
+    sources:
+      - ./**/*.go
+      - go.mod
+
+  lint:
+    desc: Run base linters
+    cmds:
+      - golangci-lint run --path-mode=abs --config=".golangci.yml" --timeout=5m
+    env:
+      GOEXPERIMENT: null
+
+  lint-fix:
+    desc: Run base linters and fix issues
+    cmds:
+      - golangci-lint run --path-mode=abs --config=".golangci.yml" --timeout=5m --fix
+    env:
+      GOEXPERIMENT: null
+
+  test:
+    cmds:
+      - go test -v ./...
+    desc: Run tests
+
+  fmt:
+    desc: Run golangci-lint fmt
+    cmds:
+      - golangci-lint fmt
