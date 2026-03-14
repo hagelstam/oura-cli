@@ -65,9 +65,7 @@ func FmtDuration(seconds int) string {
 
 func FmtTime(isoTimestamp string) string {
 	formats := []string{
-		time.RFC3339,
-		"2006-01-02T15:04:05-07:00",
-		"2006-01-02T15:04:05.000-07:00",
+		time.RFC3339Nano,
 		"2006-01-02T15:04:05",
 	}
 	for _, layout := range formats {
