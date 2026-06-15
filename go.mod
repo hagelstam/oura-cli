@@ -11,7 +11,7 @@ require (
 	github.com/charmbracelet/fang v1.0.0
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/sync v0.20.0
-	golang.org/x/term v0.43.0
+	golang.org/x/term v0.44.0
 	golang.org/x/text v0.37.0
 )
 
@@ -37,5 +37,5 @@ require (
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/exp v0.0.0-20260529124908-c761662dc8c9 // indirect
-	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
 )
