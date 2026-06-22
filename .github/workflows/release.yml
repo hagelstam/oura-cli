@@ -23,7 +23,7 @@ jobs:
           repositories: |
             ouractl
             homebrew-tap
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 0
